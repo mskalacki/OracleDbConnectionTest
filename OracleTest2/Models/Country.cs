@@ -9,6 +9,6 @@ namespace OracleTest2.Models
     {
         public string Id { get; set; }
         public string CuontryName { get; set; }
-        public int RegionId { get; set }
+        public int RegionId { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace OracleTest2.Controllers
         public ActionResult Index()
         {
             List<string> MyList = new List<string>();
-            using (OracleConnection conn = new OracleConnection()) 
+            using (OracleConnection conn = new OracleConnection())
             {
                 conn.ConnectionString = "Data Source=(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST = 127.0.0.1)(PORT = 1521)))(CONNECT_DATA =(SID =xe)));User ID=hr;Password=hr;";
                 conn.Open();
@@ -35,25 +35,44 @@ namespace OracleTest2.Controllers
             return Json(new
             {
                 list = MyList
-            },JsonRequestBehavior.AllowGet);
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult InsertItem(Country countryToAdd)
-        {
 
+        public ActionResult InsertItem(string code, string name, int region)
+        {
+            int result = 0;
             using (OracleConnection conn = new OracleConnection())
             {
                 conn.ConnectionString = "Data Source=(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST = 127.0.0.1)(PORT = 1521)))(CONNECT_DATA =(SID =xe)));User ID=hr;Password=hr;";
                 conn.Open();
                 using (OracleTransaction tran = conn.BeginTransaction())
                 {
+                    try
+                    {
 
-                    IDbCommand command = conn.CreateCommand();
+                        IDbCommand command = conn.CreateCommand();
+                        command.CommandText = "insert into countries (country_id, country_name, region_id) values ( '"+ code +"','" + name + "', " + region + ")";
+                        result = command.ExecuteNonQuery();
+                        tran.Commit();
+
+                        
+
+                    }
+                    catch (Exception)
+                    {
+                        tran.Rollback();
+                        result = -1;
+                    }
 
                 }
 
             }
-            return null;   
+            return Json(new
+
+            {
+                result
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
