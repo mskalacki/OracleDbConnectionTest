@@ -10,13 +10,13 @@ namespace OracleTest2.DB
 {
     public class ConnectionFactory : IConnectionFactory
     {
-        public IDbConnection CreateConnectionToDb()
+        public IQueryExecutor CreateConnectionToDb()
         {
 
             IDbConnection connection = new OracleConnection();
             connection.ConnectionString = ConfigurationManager.AppSettings["OracleConnectionString"];
-
-            return connection;
+            IQueryExecutor executor = new QueryExecutor(connection);
+            return executor;
         }
     }
 }

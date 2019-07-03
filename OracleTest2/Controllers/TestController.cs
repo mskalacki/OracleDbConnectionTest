@@ -25,8 +25,8 @@ namespace OracleTest2.Controllers
                 command.CommandText = "select * from countries";
 
                 var reader = command.ExecuteReader();
-                DataTable tab = new DataTable();
-                tab.Load(reader);//Ładujemy tego czytacza do DataTable i potem robimy mappera. Wtedy mamy IDbConnection, w którym robimy dwie metody: executeQuery i executeNonQuery.
+               // DataTable tab = new DataTable();
+                //tab.Load(reader);//Ładujemy tego czytacza do DataTable i potem robimy mappera. Wtedy mamy IDbConnection, w którym robimy dwie metody: executeQuery i executeNonQuery.
 
                 while (reader.Read())
                 {
