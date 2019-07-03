@@ -98,6 +98,9 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="DB\ConnectionFactory.cs" />
+    <Compile Include="DB\IConnectionFactory.cs" />
+    <Compile Include="DB\QueryExecutor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -2,6 +2,7 @@
 using OracleTest2.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -16,14 +17,16 @@ namespace OracleTest2.Controllers
         public ActionResult Index()
         {
             List<string> MyList = new List<string>();
-            using (OracleConnection conn = new OracleConnection())
+            using (IDbConnection conn = new OracleConnection())
             {
-                conn.ConnectionString = "Data Source=(DESCRIPTION =(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST = 127.0.0.1)(PORT = 1521)))(CONNECT_DATA =(SID =xe)));User ID=hr;Password=hr;";
+                conn.ConnectionString = ConfigurationManager.AppSettings["OracleConnectionString"];
                 conn.Open();
                 IDbCommand command = conn.CreateCommand();
                 command.CommandText = "select * from countries";
 
                 var reader = command.ExecuteReader();
+                DataTable tab = new DataTable();
+                tab.Load(reader);//Ładujemy tego czytacza do DataTable i potem robimy mappera. Wtedy mamy IDbConnection, w którym robimy dwie metody: executeQuery i executeNonQuery.
 
                 while (reader.Read())
                 {
